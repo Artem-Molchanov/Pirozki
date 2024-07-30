@@ -1,0 +1,4 @@
+npx sequelize model:generate --name User --attributes user_name:string,email:string,password:string
+npx sequelize model:generate --name Product --attributes product_name:string,product_description:string,product_price:integer,img_url:string
+npx sequelize model:generate --name Cart --attributes user_id:integer,total_sum:integer
+npx sequelize model:generate --name CartItem --attributes cart_id:integer,product_id:integer,quantity:integer
