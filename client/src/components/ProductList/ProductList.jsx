@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getProducts } from '../../data/mockData';
+// import { getProducts } from '../../data/mockData';
 
-function ProductList() {
-	const [products, setProducts] = useState([]);
+function ProductList({products}) {
 
-	useEffect(() => {
-		setProducts(getProducts());
-	}, []);
 
 	return (
 		<div>
@@ -16,9 +12,10 @@ function ProductList() {
 				{products.map(product => (
 					<li key={product.id}>
 						<Link to={`/product/${product.id}`}>
-							<h2>{product.name}</h2>
-							<p>{product.description}</p>
-							<p>{product.price} руб.</p>
+							<h2>{product.product_name}</h2>
+							<p>{product.product_description}</p>
+							<p>{product.product_price} руб.</p>
+							<img src={product.img_url} alt="" />
 						</Link>
 					</li>
 				))}

@@ -1,23 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
-import { getProductById } from '../../data/mockData';
 
-function ProductPage() {
+function ProductPage({ products }) {
 	const { id } = useParams();
-	const [product, setProduct] = useState(null);
+	const product = products.find(product => product.id === parseInt(id));
 
-	useEffect(() => {
-		const productData = getProductById(id);
-		setProduct(productData);
-	}, [id]);
-
-	if (!product) return <p>Загрузка...</p>;
+	if (!product) return <p>Товар не найден.</p>;
 
 	return (
 		<div>
-			<h1>{product.name}</h1>
-			<p>{product.description}</p>
-			<p>{product.price} руб.</p>
+			<h1>{product.product_name}</h1>
+			<p>{product.product_description}</p>
+			<p>{product.product_price} руб.</p>
+			<img src={product.img_url} alt={product.product_name} />
 			<button>Добавить в корзину</button>
 		</div>
 	);
