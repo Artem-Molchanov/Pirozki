@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-function Header() {
+function Header({ user }) {
 	return (
 		<header>
 			<div>
@@ -9,8 +9,16 @@ function Header() {
 			</div>
 			<nav>
 				<Link to='/'>Главная</Link>
-				<Link to='/cart'>Корзина</Link>
-				<Link to='/auth'>Войти / Зарегистрироваться</Link>
+				{user ? (
+					<>
+						<span>Добро пожаловать, {user.name}!</span>
+						<Link to='/cart'>Корзина</Link>
+					</>
+				) : (
+					<>
+						<Link to='/auth'>Войти / Зарегистрироваться</Link>
+					</>
+				)}
 			</nav>
 		</header>
 	);
