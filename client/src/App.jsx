@@ -12,6 +12,7 @@ import axiosInstance, { setAccessToken } from './axiosInstance';
 function App() {
 	const [user, setUser] = useState({});
 	const [products, setProducts] = useState([]);
+	const isRegistered = !!user.user_name;
 
 	useEffect(() => {
 		axiosInstance
@@ -53,7 +54,9 @@ function App() {
 				/>
 				<Route
 					path='/product/:id'
-					element={<ProductPage products={products} />}
+					element={
+						<ProductPage products={products} isRegistered={isRegistered} />
+					}
 				/>
 				<Route path='/cart' element={<Cart />} />
 				<Route path='/auth' element={<Auth setUser={setUser} />} />

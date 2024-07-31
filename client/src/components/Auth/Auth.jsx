@@ -17,8 +17,6 @@ function Auth({ setUser }) {
 
 	const submitHandler = async e => {
 		e.preventDefault();
-
-		console.log('Форма отправлена');
 		const type = isRegister ? 'signup' : 'signin';
 		try {
 			const response = await axiosInstance.post(

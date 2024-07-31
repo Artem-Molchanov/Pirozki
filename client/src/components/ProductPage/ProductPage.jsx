@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
-function ProductPage({ products }) {
+function ProductPage({ products, isRegistered }) {
 	const { id } = useParams();
 	const product = products.find(product => product.id === parseInt(id));
 
@@ -13,7 +13,11 @@ function ProductPage({ products }) {
 			<p>{product.product_description}</p>
 			<p>{product.product_price} руб.</p>
 			<img src={product.img_url} alt={product.product_name} />
-			<button>Добавить в корзину</button>
+			{isRegistered ? (
+				<button>Добавить в корзину</button>
+			) : (
+				<p>Пожалуйста, залогиньтесь, чтобы добавить товар в корзину.</p>
+			)}
 		</div>
 	);
 }
