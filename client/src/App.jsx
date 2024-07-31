@@ -26,7 +26,7 @@ function App() {
 
 	return (
 		<Router>
-			<Header user={user} />
+			<Header user={user} setUser={setUser} />
 			<Routes>
 				<Route path='/' element={<ProductList />} />
 				<Route path='/product/:id' element={<ProductPage />} />

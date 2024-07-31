@@ -42,8 +42,8 @@ function Auth({ setUser }) {
 						<label>Имя пользователя:</label>
 						<input
 							type='text'
-							name='username'
-							value={inputs.username || ''}
+							name='user_name'
+							value={inputs.user_name || ''}
 							onChange={changeHandler}
 							placeholder='Имя пользователя'
 						/>

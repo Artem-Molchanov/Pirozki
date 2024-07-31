@@ -6,14 +6,14 @@ const generateToken = require('../utils/generateToken');
 
 router.post('/signup', async (req, res) => {
   try {
-    const { username, email, password } = req.body;
-
-    if (!(username && email && password)) {
+    const { user_name, email, password } = req.body;
+    console.log(user_name, email, password);
+    if (!(user_name && email && password)) {
       return res.status(400).json({ message: 'All fields must be provided.' });
     }
     const [user, isCreated] = await User.findOrCreate({
       where: { email },
-      defaults: { email, username, password: await bcrypt.hash(password, 10) },
+      defaults: { email, user_name, password: await bcrypt.hash(password, 10) },
     });
 
     if (!isCreated) {

@@ -1,0 +1,36 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #f8f9fa;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: #343a40;
+}
+
+.nav {
+  display: flex;
+  gap: 15px;
+}
+
+.nav a {
+  text-decoration: none;
+  color: #007bff;
+  font-size: 1rem;
+}
+
+.nav a:hover {
+  text-decoration: underline;
+}
+
+.welcome {
+  font-size: 1rem;
+  color: #343a40;
+  margin-right: 10px;
+}
