@@ -9,6 +9,7 @@ const tasksRouter = require('./routers//tasks.api.router');
 const authRouter = require('./routers/auth.router');
 const tokenRouter = require('./routers/token.router');
 const productsRouter = require('./routers/products.api.router');
+const cartItemsRouter = require('./routers/cartItems.api.router');
 
 const app = express();
 const { PORT } = process.env;
@@ -28,7 +29,8 @@ app.use(cors(corsOptions))
 app.use('/api/tasks', tasksRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/tokens', tokenRouter);
-app.use('/api/products', productsRouter)
+app.use('/api/products', productsRouter);
+app.use('/api/cartitems', cartItemsRouter);
 
 app.use('*', (req, res) => {
   res.redirect('/');
