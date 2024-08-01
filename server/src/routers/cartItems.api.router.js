@@ -33,7 +33,8 @@ router.post('/', verifyAccessToken, async (req, res) => {
 
 		const updatedTotalSum = cart.total_sum + product.product_price * quantity;
 		
-		const updateCart = await Cart.update({total_sum: updatedTotalSum}, {where: {id: cart.id}})
+		
+		 await Cart.update({total_sum: updatedTotalSum}, {where: {id: cart.id}})
 
 		res.status(201).json(newCartItem);
 	} catch (error) {
@@ -47,18 +48,29 @@ router.delete('/:id', verifyAccessToken, async (req, res) => {
 	const { user } = res.locals;
 
 	try {
+		// let cart = await Cart.findOne({ where: { user_id: user.id } });
 		const cartItem = await CartItem.findByPk(cartItemId);
 		if (!cartItem) {
 			return res.status(404).json({ message: 'Элемент корзины не найден' });
 		}
+
 		const cart = await Cart.findByPk(cartItem.cart_id);
 		if (cart.user_id !== user.id) {
 			return res.status(403).json({ message: 'Нет доступа' });
 		}
+
 		const product = await Product.findByPk(cartItem.product_id);
 		await cartItem.destroy();
-		const updatedTotalSum = cart.total_sum - product.price * cartItem.quantity;
-		await cart.update({ total_sum: updatedTotalSum });
+
+		console.log('Сумма корзины', cart.total_sum);
+		console.log('Цена товара', product.product_price);
+		console.log('Кол-во пирожков', cartItem.quantity);
+		const updatedTotalSum = cart.total_sum - product.product_price * cartItem.quantity;
+		console.log("Итого",updatedTotalSum);
+
+		 await Cart.update({total_sum: updatedTotalSum}, {where: {id: cart.id}})
+
+		// await cart.update({total_sum: updatedTotalSum });
 
 		res.status(200).json({ message: 'Элемент удален' });
 	} catch (error) {

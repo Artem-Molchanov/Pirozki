@@ -9,27 +9,25 @@ function Cart({ user, products }) {
 		axiosInstance
 			.get(`${import.meta.env.VITE_API}carts`)
 			.then(res => {
-				console.log(res.data.cartItems[0]);
+				console.log(res.data.total_sum);
 				setTotalSum(res.data.total_sum);
 				setCartItems(res.data.cartItems)
 			})
 			.catch(err => console.error('Ошибка при загрузке корзины:', err));
 	}, [user]);
+		useEffect(() => {
+			axiosInstance
+				.get(`${import.meta.env.VITE_API}carts`)
+				.then(res => {
 
-	
-	// useEffect(() => {
-	// 	axiosInstance
-	// 		.get(`${import.meta.env.VITE_API}cartitems`)
-	// 		.then(res => {
-	// 			setCartItems(res.data.cartItems);
-	// 		})
-	// 		.catch(err => console.error('Ошибка при загрузке элементов корзины:', err));
-	// }, [user]);
-
+					setTotalSum(res.data.total_sum);
+				})
+				.catch(err => console.error('Ошибка при загрузке корзины:', err));
+		}, [cartItems]);
 
 	const removeItem = async id => {
 		try {
-			await axiosInstance.delete(`${import.meta.env.VITE_API}/cartitems/${id}`);
+			await axiosInstance.delete(`${import.meta.env.VITE_API}cartitems/${id}`);
 			setCartItems(cartItems.filter(item => item.id !== id));
 		} catch (error) {
 			console.error('Ошибка при удалении товара из корзины:', error);

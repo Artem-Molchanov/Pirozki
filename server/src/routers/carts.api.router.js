@@ -18,8 +18,6 @@ router.get('/', verifyAccessToken, async (req, res) => {
 		if (!cart) {
 			return res.status(404).json({ message: 'Корзина не найдена' });
 		}
-		// console.dir(cart, {depth: null});
-		console.log(cart.get({plain: true, nested: true}));
 		res.json(cart);
 		
 	} catch (error) {
