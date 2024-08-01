@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { CartItem, Cart, Product } = require('../../db/models');
 const { verifyAccessToken } = require('../middleWares/verifyToken');
 
-router.get('/cartitems', verifyAccessToken, async (req, res) => {
+router.get('/', verifyAccessToken, async (req, res) => {
 	try {
 		const cartItems = await CartItem.findAll();
 		res.json(cartItems);
@@ -12,7 +12,7 @@ router.get('/cartitems', verifyAccessToken, async (req, res) => {
 	}
 });
 
-router.post('/cartitems', verifyAccessToken, async (req, res) => {
+router.post('/', verifyAccessToken, async (req, res) => {
 	const { product_id, quantity } = req.body;
 	const { user } = res.locals;
 
@@ -31,8 +31,9 @@ router.post('/cartitems', verifyAccessToken, async (req, res) => {
 			quantity,
 		});
 
-		const updatedTotalSum = cart.total_sum + product.price * quantity;
-		await cart.update({ total_sum: updatedTotalSum });
+		const updatedTotalSum = cart.total_sum + product.product_price * quantity;
+		
+		const updateCart = await Cart.update({total_sum: updatedTotalSum}, {where: {id: cart.id}})
 
 		res.status(201).json(newCartItem);
 	} catch (error) {
@@ -41,7 +42,7 @@ router.post('/cartitems', verifyAccessToken, async (req, res) => {
 	}
 });
 
-router.delete('/cartitems/:id', verifyAccessToken, async (req, res) => {
+router.delete('/:id', verifyAccessToken, async (req, res) => {
 	const cartItemId = req.params.id;
 	const { user } = res.locals;
 

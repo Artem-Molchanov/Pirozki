@@ -1,48 +1,34 @@
 const router = require('express').Router();
-const { Cart } = require('../../db/models');
+const { CartItem, Cart, Product } = require('../../db/models');
 const { verifyAccessToken } = require('../middleWares/verifyToken');
 
-router.get('/carts', async (req, res) => {
+router.get('/', verifyAccessToken, async (req, res) => {
+	
 	try {
-		const carts = await Cart.findAll();
-		res.json(carts);
+		const cart = await Cart.findOne({
+			where: { user_id: res.locals.user.id },
+			include: [
+				{
+					model: CartItem,
+					as: 'cartItems',
+					include: [{ model: Product, as: 'product' }],
+				},
+			],
+		});
+		if (!cart) {
+			return res.status(404).json({ message: 'Корзина не найдена' });
+		}
+		// console.dir(cart, {depth: null});
+		console.log(cart.get({plain: true, nested: true}));
+		res.json(cart);
+		
 	} catch (error) {
-		console.error(error);
-		res.sendStatus(400);
+		console.error('Ошибка при получении данных корзины:', error);
+		res.status(500).json({ message: 'Ошибка сервера' });
 	}
 });
 
-router.post('/carts', verifyAccessToken, async (req, res) => {
-	const { title, text } = req.body;
-	const { user } = res.locals;
-	try {
-		if (title && text) {
-			const task = await Task.create({ title, text, user_id: user.id });
-			res.json(task);
-		} else {
-			res.status(400).json({ message: 'Not all fields filled with data' });
-		}
-	} catch (error) {
-		console.error(error);
-		res.sendStatus(400);
-	}
-});
 
-router.delete('/:id', verifyAccessToken, async (req, res) => {
-	try {
-		const { id } = req.params;
-		const { user } = res.locals;
-		const task = await Task.findByPk(id);
-		if (task.user_id === user.id) {
-			task.destroy();
-			res.sendStatus(200);
-		} else {
-			res.status(400).json({ message: 'Haven`t rights to delete this entry' });
-		}
-	} catch (error) {
-		console.log(error);
-		res.sendStatus(400);
-	}
-});
+
 
 module.exports = router;

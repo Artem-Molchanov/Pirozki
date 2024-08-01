@@ -26,19 +26,18 @@ function App() {
 			});
 	}, []);
 
+	useEffect(() => {
+		axiosInstance.get(`${import.meta.env.VITE_API}products`)
+			.then(data => setProducts(data.data))
+			.catch(err => console.log(err));
+	}, []);
+
 	// useEffect(() => {
-	// 	axiosInstance.get(`${import.meta.env.VITE_TARGET}/api/products`)
+	// 	fetch(`${import.meta.env.VITE_TARGET}/api/products`)
 	// 		.then(res => res.json())
 	// 		.then(data => setProducts(data))
 	// 		.catch(err => console.log(err));
 	// }, []);
-
-	useEffect(() => {
-		fetch(`${import.meta.env.VITE_TARGET}/api/products`)
-			.then(res => res.json())
-			.then(data => setProducts(data))
-			.catch(err => console.log(err));
-	}, []);
 
 
 
@@ -58,7 +57,10 @@ function App() {
 						<ProductPage products={products} isRegistered={isRegistered} />
 					}
 				/>
-				<Route path='/cart' element={<Cart />} />
+				<Route
+					path='/cart'
+					element={<Cart user={user} products={products} />}
+				/>
 				<Route path='/auth' element={<Auth setUser={setUser} />} />
 			</Routes>
 			<Footer />

@@ -1,38 +1,59 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import axiosInstance from '../../axiosInstance';
 
-function Cart() {
-	const [cart, setCart] = useState([]);
+function Cart({ user, products }) {
+	const [cartItems, setCartItems] = useState([]);
+	const [totalSum, setTotalSum] = useState(0);
 
 	useEffect(() => {
-		const cartData = JSON.parse(localStorage.getItem('cart')) || [];
-		setCart(cartData);
-	}, []);
+		axiosInstance
+			.get(`${import.meta.env.VITE_API}carts`)
+			.then(res => {
+				console.log(res.data.cartItems[0]);
+				setTotalSum(res.data.total_sum);
+				setCartItems(res.data.cartItems)
+			})
+			.catch(err => console.error('Ошибка при загрузке корзины:', err));
+	}, [user]);
 
-	const handleRemove = id => {
-		const updatedCart = cart.filter(item => item.id !== id);
-		setCart(updatedCart);
-		localStorage.setItem('cart', JSON.stringify(updatedCart));
+	
+	// useEffect(() => {
+	// 	axiosInstance
+	// 		.get(`${import.meta.env.VITE_API}cartitems`)
+	// 		.then(res => {
+	// 			setCartItems(res.data.cartItems);
+	// 		})
+	// 		.catch(err => console.error('Ошибка при загрузке элементов корзины:', err));
+	// }, [user]);
+
+
+	const removeItem = async id => {
+		try {
+			await axiosInstance.delete(`${import.meta.env.VITE_API}/cartitems/${id}`);
+			setCartItems(cartItems.filter(item => item.id !== id));
+		} catch (error) {
+			console.error('Ошибка при удалении товара из корзины:', error);
+		}
 	};
-
-	const totalPrice = cart.reduce(
-		(total, item) => total + item.price * item.quantity,
-		0
-	);
 
 	return (
 		<div>
 			<h1>Корзина</h1>
-			<ul>
-				{cart.map(item => (
-					<li key={item.id}>
-						<h2>{item.name}</h2>
-						<p>Количество: {item.quantity}</p>
-						<p>Цена: {item.price} руб.</p>
-						<button onClick={() => handleRemove(item.id)}>Удалить</button>
-					</li>
-				))}
-			</ul>
-			<h2>Общая стоимость: {totalPrice} руб.</h2>
+			{cartItems.length === 0 ? (
+				<p>Ваша корзина пуста.</p>
+			) : (
+				<ul>
+					{cartItems?.map(item => (
+						<li key={item.id}>
+							<h2>{item.product.product_name}</h2>
+							<p>Количество: {item.quantity}</p>
+							<p>Цена: {item.product.product_price * item.quantity} руб.</p>
+							<button onClick={() => removeItem(item.id)}>Удалить</button>
+						</li>
+					))}
+				</ul>
+			)}
+			<h2>Общая сумма: {totalSum} руб.</h2>
 		</div>
 	);
 }
