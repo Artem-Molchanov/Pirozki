@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axiosInstance from '../../axiosInstance';
+import styles from './Cart.module.css';
 
 function Cart({ user, products }) {
 	const [cartItems, setCartItems] = useState([]);
@@ -35,23 +36,33 @@ function Cart({ user, products }) {
 	};
 
 	return (
-		<div>
-			<h1>Корзина</h1>
+		<div className={styles.cartContainer}>
+			<div className={styles.title}>Корзина</div>
 			{cartItems.length === 0 ? (
-				<p>Ваша корзина пуста.</p>
+				<div className={styles.emptyCart}>Ваша корзина пуста.</div>
 			) : (
-				<ul>
+				<div className={styles.cartItemsContainer}>
 					{cartItems?.map(item => (
-						<li key={item.id}>
-							<h2>{item.product.product_name}</h2>
-							<p>Количество: {item.quantity}</p>
-							<p>Цена: {item.product.product_price * item.quantity} руб.</p>
-							<button onClick={() => removeItem(item.id)}>Удалить</button>
-						</li>
+						<div key={item.id} className={styles.cartItem}>
+							<div className={styles.productName}>
+								{item.product.product_name}
+							</div>
+							<div className={styles.productQuantity}>
+								Количество: {item.quantity}
+							</div>
+							<div className={styles.productPrice}>
+								Цена: {item.product.product_price * item.quantity} руб.
+							</div>
+							<button
+								className={styles.removeButton}
+								onClick={() => removeItem(item.id)}>
+								Удалить
+							</button>
+						</div>
 					))}
-				</ul>
+				</div>
 			)}
-			<h2>Общая сумма: {totalSum} руб.</h2>
+			<div className={styles.totalSum}>Общая сумма: {totalSum} руб.</div>
 		</div>
 	);
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import axiosInstance from '../../axiosInstance';
+import styles from './ProductPage.module.css';
 
 function ProductPage({ products, isRegistered }) {
 	const { id } = useParams();
@@ -22,15 +23,21 @@ function ProductPage({ products, isRegistered }) {
 	};
 
 	return (
-		<div>
-			<h1>{product.product_name}</h1>
-			<p>{product.product_description}</p>
-			<p>{product.product_price} руб.</p>
-			<img src={product.img_url} alt={product.product_name} />
+		<div className={styles.container}>
+			<div className={styles.productName}>{product.product_name}</div>
+			<div className={styles.productDescription}>{product.product_description}</div>
+			<div className={styles.productPrice}>{product.product_price} руб.</div>
+			<img
+				className={styles.productImage}
+				src={product.img_url}
+				alt={product.product_name}
+			/>
 			{isRegistered ? (
-				<button onClick={addToCart}>Добавить в корзину</button>
+				<button className={styles.addToCartButton} onClick={addToCart}>
+					Добавить в корзину
+				</button>
 			) : (
-				<p>Пожалуйста, залогиньтесь, чтобы добавить товар в корзину.</p>
+				<div>Пожалуйста, залогиньтесь, чтобы положить пирожок в корзину.</div>
 			)}
 		</div>
 	);

@@ -26,7 +26,7 @@ function Header({ user, setUser }) {
 				</Link>
 			</div>
 			<nav className={styles.nav}>
-				<Link to='/'>Главная</Link>
+				<Link to='/'></Link>
 				{user.user_name ? (
 					<>
 						<span className={styles.welcome}>
@@ -36,10 +36,16 @@ function Header({ user, setUser }) {
 							<img
 								src='https://www.svgrepo.com/show/148458/shopping-cart.svg'
 								alt='Корзина'
-								className={styles.logo}
+								className={styles.cart}
 							/>
 						</Link>
-						<Link onClick={signOutHandler}>Выйти</Link>
+						<Link onClick={signOutHandler} className='exit'>
+							<img
+								src='https://cdn.onlinewebfonts.com/svg/img_310775.png'
+								alt='Выйти'
+								className={styles.exit}
+							/>
+						</Link>
 					</>
 				) : (
 					<>

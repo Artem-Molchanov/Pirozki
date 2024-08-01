@@ -1,4 +1,9 @@
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+
 .header {
+	font-family: "Noto Sans", sans-serif;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -16,6 +21,16 @@
 	color: #343a40;
 }
 
+.cart {
+		width: 40px;
+    height: 30px;
+}
+
+.exit {
+		width: 30px;
+    height:30px;
+}
+
 .nav {
 	display: flex;
 	gap: 15px;
@@ -23,8 +38,8 @@
 
 .nav a {
 	text-decoration: none;
-	color: #007bff;
-	font-size: 1rem;
+	color: black;
+	font-size: 18px;
 }
 
 .nav a:hover {
@@ -32,7 +47,7 @@
 }
 
 .welcome {
-	font-size: 1rem;
+	font-size: 18px;
 	color: #343a40;
 	margin-right: 10px;
 }
