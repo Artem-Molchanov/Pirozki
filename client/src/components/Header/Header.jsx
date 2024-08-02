@@ -1,17 +1,29 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axiosInstance, { setAccessToken } from '../../axiosInstance';
 import styles from './Header.module.css';
 
-function Header({ user, setUser }) {
+function Header({ user, setUser, cartItemCount }) {
+	//попытка в счетчик корзины:
+	// const [cartItemCount, setCartItemCount] = useState(0);
+	// useEffect(() => {
+	// 	if (user.user_name) {
+	// 		axiosInstance.get(`${import.meta.env.VITE_API}carts`).then(res => {
+	// 			setCartItemCount(res.data.cartItems.length);
+	// 		});
+	// 	}
+	// }, [user]);
+
+	//попытка в счетчик корзины:
+
 	const signOutHandler = async () => {
 		const response = await axiosInstance.get(
 			`${import.meta.env.VITE_API}auth/signout`
-			
 		);
 		if (response.status === 200) {
 			setUser({});
 			setAccessToken('');
+			// setCartItemCount(0); // Очистить количество товаров в корзине
 		}
 	};
 	return (
@@ -38,6 +50,9 @@ function Header({ user, setUser }) {
 								alt='Корзина'
 								className={styles.cart}
 							/>
+							{cartItemCount > 0 && (
+								<span className={styles.cartBadge}>{cartItemCount}</span>
+							)} 
 						</Link>
 						<Link onClick={signOutHandler} className='exit'>
 							<img

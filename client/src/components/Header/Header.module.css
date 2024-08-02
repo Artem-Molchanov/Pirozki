@@ -12,6 +12,21 @@
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.cartBadge {
+	position: absolute;
+	top: 33px;
+	/* right: -5px; */
+	background-color: red;
+	color: white;
+	border-radius: 50%;
+	width: 20px;
+	height: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 12px;
+}
+
 .logo {
 	width: 120px;
     height: auto;
@@ -22,6 +37,7 @@
 }
 
 .cart {
+	position: relative;
 		width: 40px;
     height: 30px;
 }

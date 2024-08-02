@@ -13,6 +13,8 @@ function App() {
 	const [user, setUser] = useState({});
 	const [products, setProducts] = useState([]);
 	const isRegistered = !!user.user_name;
+	//счетчик корзины
+	const [cartItemCount, setCartItemCount] = useState(0);
 
 	useEffect(() => {
 		axiosInstance
@@ -27,7 +29,8 @@ function App() {
 	}, []);
 
 	useEffect(() => {
-		axiosInstance.get(`${import.meta.env.VITE_API}products`)
+		axiosInstance
+			.get(`${import.meta.env.VITE_API}products`)
 			.then(data => setProducts(data.data))
 			.catch(err => console.log(err));
 	}, []);
@@ -39,11 +42,22 @@ function App() {
 	// 		.catch(err => console.log(err));
 	// }, []);
 
-
+	//счетчик товаров корзине:
+	const updateCartItemCount = () => {
+		axiosInstance.get(`${import.meta.env.VITE_API}carts`).then(res => {
+			setCartItemCount(res.data.cartItems.length);
+		});
+	};
+	//счетчик товаров динамически обновляем кружок
+	useEffect(() => {
+		if (isRegistered) {
+			updateCartItemCount();
+		}
+	}, [isRegistered]);
 
 	return (
 		<Router>
-			<Header user={user} setUser={setUser} />
+			<Header user={user} setUser={setUser} cartItemCount={cartItemCount} />
 			<Routes>
 				<Route
 					path='/'
@@ -54,12 +68,22 @@ function App() {
 				<Route
 					path='/product/:id'
 					element={
-						<ProductPage products={products} isRegistered={isRegistered} />
+						<ProductPage
+							products={products}
+							isRegistered={isRegistered}
+							updateCartItemCount={updateCartItemCount}
+						/>
 					}
 				/>
 				<Route
 					path='/cart'
-					element={<Cart user={user} products={products} />}
+					element={
+						<Cart
+							user={user}
+							products={products}
+							updateCartItemCount={updateCartItemCount}
+						/>
+					}
 				/>
 				<Route path='/auth' element={<Auth setUser={setUser} />} />
 			</Routes>

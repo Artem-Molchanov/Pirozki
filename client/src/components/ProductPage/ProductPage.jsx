@@ -4,7 +4,8 @@ import axiosInstance from '../../axiosInstance';
 import styles from './ProductPage.module.css';
 import Modal from '../Modal/Modal';
 
-function ProductPage({ products, isRegistered }) {
+function ProductPage({ products, isRegistered, updateCartItemCount }) {
+
 	const { id } = useParams();
 	const product = products.find(product => product.id === parseInt(id));
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -20,6 +21,7 @@ function ProductPage({ products, isRegistered }) {
 			});
 			setModalMessage('Пирожок добавлен в корзину');
 			setIsModalOpen(true);
+			updateCartItemCount();
 		} catch (error) {
 			console.error('Ошибка при добавлении товара в корзину:', error);
 			setModalMessage('Ошибка при добавлении товара в корзину');

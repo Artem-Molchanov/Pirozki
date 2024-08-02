@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axiosInstance from '../../axiosInstance';
 import styles from './Cart.module.css';
 
-function Cart({ user, products }) {
+function Cart({ user, products, updateCartItemCount }) {
 	const [cartItems, setCartItems] = useState([]);
 	const [totalSum, setTotalSum] = useState(0);
 
@@ -12,24 +12,24 @@ function Cart({ user, products }) {
 			.then(res => {
 				console.log(res.data.total_sum);
 				setTotalSum(res.data.total_sum);
-				setCartItems(res.data.cartItems)
+				setCartItems(res.data.cartItems);
 			})
 			.catch(err => console.error('Ошибка при загрузке корзины:', err));
 	}, [user]);
-		useEffect(() => {
-			axiosInstance
-				.get(`${import.meta.env.VITE_API}carts`)
-				.then(res => {
-
-					setTotalSum(res.data.total_sum);
-				})
-				.catch(err => console.error('Ошибка при загрузке корзины:', err));
-		}, [cartItems]);
+	useEffect(() => {
+		axiosInstance
+			.get(`${import.meta.env.VITE_API}carts`)
+			.then(res => {
+				setTotalSum(res.data.total_sum);
+			})
+			.catch(err => console.error('Ошибка при загрузке корзины:', err));
+	}, [cartItems]);
 
 	const removeItem = async id => {
 		try {
 			await axiosInstance.delete(`${import.meta.env.VITE_API}cartitems/${id}`);
 			setCartItems(cartItems.filter(item => item.id !== id));
+			updateCartItemCount();
 		} catch (error) {
 			console.error('Ошибка при удалении товара из корзины:', error);
 		}
