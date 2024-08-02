@@ -67,3 +67,15 @@
 	color: #343a40;
 	margin-right: 10px;
 }
+
+
+.adminLink {
+ 	color: #33ff00;
+ 	text-decoration: none;
+ 	font-size: 18px;
+ 	margin-left: 15px;
+}
+
+.adminLink:hover {
+ 	text-decoration: underline;
+}

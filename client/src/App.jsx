@@ -35,13 +35,6 @@ function App() {
 			.catch(err => console.log(err));
 	}, []);
 
-	// useEffect(() => {
-	// 	fetch(`${import.meta.env.VITE_TARGET}/api/products`)
-	// 		.then(res => res.json())
-	// 		.then(data => setProducts(data))
-	// 		.catch(err => console.log(err));
-	// }, []);
-
 	//счетчик товаров корзине:
 	const updateCartItemCount = () => {
 		axiosInstance.get(`${import.meta.env.VITE_API}carts`).then(res => {

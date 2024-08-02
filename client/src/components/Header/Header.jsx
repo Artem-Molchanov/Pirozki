@@ -4,15 +4,6 @@ import axiosInstance, { setAccessToken } from '../../axiosInstance';
 import styles from './Header.module.css';
 
 function Header({ user, setUser, cartItemCount }) {
-	//попытка в счетчик корзины:
-	// const [cartItemCount, setCartItemCount] = useState(0);
-	// useEffect(() => {
-	// 	if (user.user_name) {
-	// 		axiosInstance.get(`${import.meta.env.VITE_API}carts`).then(res => {
-	// 			setCartItemCount(res.data.cartItems.length);
-	// 		});
-	// 	}
-	// }, [user]);
 
 	//попытка в счетчик корзины:
 
@@ -44,6 +35,11 @@ function Header({ user, setUser, cartItemCount }) {
 						<span className={styles.welcome}>
 							Добро пожаловать, {user.user_name}!
 						</span>
+						{user.user_name === 'admin' && (
+							<Link to='/admin' className={styles.adminLink}>
+								ЛК админа
+							</Link>
+						)}
 						<Link to='/cart' className='cart'>
 							<img
 								src='https://www.svgrepo.com/show/148458/shopping-cart.svg'
@@ -52,7 +48,7 @@ function Header({ user, setUser, cartItemCount }) {
 							/>
 							{cartItemCount > 0 && (
 								<span className={styles.cartBadge}>{cartItemCount}</span>
-							)} 
+							)}
 						</Link>
 						<Link onClick={signOutHandler} className='exit'>
 							<img
