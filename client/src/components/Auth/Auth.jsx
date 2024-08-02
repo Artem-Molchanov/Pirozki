@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance, { setAccessToken } from '../../axiosInstance';
+import styles from './Auth.module.css';
 
 function Auth({ setUser }) {
 	const [inputs, setInputs] = useState({});
@@ -32,46 +33,45 @@ function Auth({ setUser }) {
 	};
 
 	return (
-		<div>
-			<h1>{isRegister ? 'Регистрация' : 'Вход'}</h1>
+		<div className={styles.authContainer}>
+			<div className={styles.authTitle}>
+				{isRegister ? 'Регистрация' : 'Вход'}
+			</div>
 			<form onSubmit={submitHandler}>
 				{isRegister && (
-					<div>
-						<label>Имя пользователя:</label>
+					<div className={styles.formGroup}>
+						<label>Имя:</label>
 						<input
 							type='text'
 							name='user_name'
 							value={inputs.user_name || ''}
 							onChange={changeHandler}
-							placeholder='Имя пользователя'
 						/>
 					</div>
 				)}
-				<div>
+				<div className={styles.formGroup}>
 					<label>Email:</label>
 					<input
 						type='email'
 						name='email'
 						value={inputs.email || ''}
 						onChange={changeHandler}
-						placeholder='Эл.почта'
 					/>
 				</div>
-				<div>
+				<div className={styles.formGroup}>
 					<label>Пароль:</label>
 					<input
 						type='password'
 						name='password'
 						value={inputs.password || ''}
 						onChange={changeHandler}
-						placeholder='Пароль'
 					/>
 				</div>
-				<button type='submit'>
+				<button type='submit' className={styles.submitButton}>
 					{isRegister ? 'Зарегистрироваться' : 'Войти'}
 				</button>
 			</form>
-			<button onClick={toggleForm}>
+			<button onClick={toggleForm} className={styles.toggleButton}>
 				{isRegister
 					? 'Уже есть аккаунт? Войти'
 					: 'Нет аккаунта? Зарегистрироваться'}
