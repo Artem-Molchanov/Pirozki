@@ -10,7 +10,6 @@ function Cart({ user, products, updateCartItemCount }) {
 		axiosInstance
 			.get(`${import.meta.env.VITE_API}carts`)
 			.then(res => {
-				console.log(res.data.total_sum);
 				setTotalSum(res.data.total_sum);
 				setCartItems(res.data.cartItems);
 			})
