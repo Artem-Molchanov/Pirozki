@@ -12,9 +12,10 @@ function Cart({ user, products, updateCartItemCount }) {
 			.then(res => {
 				setTotalSum(res.data.total_sum);
 				setCartItems(res.data.cartItems);
+				updateCartItemCount(); // Обновляем состояние корзины
 			})
 			.catch(err => console.error('Ошибка при загрузке корзины:', err));
-	}, [user]);
+	}, [user, updateCartItemCount()]);
 	useEffect(() => {
 		axiosInstance
 			.get(`${import.meta.env.VITE_API}carts`)

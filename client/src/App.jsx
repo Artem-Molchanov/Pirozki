@@ -7,6 +7,8 @@ import ProductList from './components/ProductList/ProductList';
 import ProductPage from './components/ProductPage/ProductPage';
 import Cart from './components/Cart/Cart';
 import Auth from './components/Auth/Auth';
+import Admin from './components/Admin/Admin';
+import UserEdit from './components/Admin/UserEdit';
 import axiosInstance, { setAccessToken } from './axiosInstance';
 
 function App() {
@@ -22,6 +24,8 @@ function App() {
 			.then(res => {
 				setUser(res.data.user);
 				setAccessToken(res.data.accessToken);
+
+				updateCartItemCount();  // добалено для проверки обновления корзины в виджете
 			})
 			.catch(err => {
 				console.error('Ошибка при обновлении токена:', err);
@@ -79,6 +83,8 @@ function App() {
 					}
 				/>
 				<Route path='/auth' element={<Auth setUser={setUser} />} />
+				<Route path='/admin' element={<Admin />} />
+				<Route path='/admin/edit/:id' element={<UserEdit />} />
 			</Routes>
 			<Footer />
 		</Router>
