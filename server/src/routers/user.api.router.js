@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User } = require('../../db/models');
+const { User, Cart, CartItem } = require('../../db/models');
 const bcrypt = require('bcrypt');
 
 
@@ -81,6 +81,18 @@ router.delete('/:id', async (req, res) => {
 		if (!user) {
 			return res.status(404).json({ message: 'User not found' });
 		}
+
+		// Найти корзину пользователя
+		const cart = await Cart.findOne({ where: { user_id: req.params.id } });
+		if (cart) {
+			// Удалить все элементы корзины
+			await CartItem.destroy({ where: { cart_id: cart.id } });
+
+			// Удалить корзину
+			await cart.destroy();
+		}
+
+		// Удалить пользователя
 		await user.destroy();
 		res.sendStatus(204);
 	} catch (error) {

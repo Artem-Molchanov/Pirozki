@@ -83,7 +83,10 @@ function App() {
 					}
 				/>
 				<Route path='/auth' element={<Auth setUser={setUser} />} />
-				<Route path='/admin' element={<Admin />} />
+				<Route
+					path='/admin'
+					element={<Admin updateCartItemCount={updateCartItemCount} />}
+				/>
 				<Route path='/admin/edit/:id' element={<UserEdit />} />
 			</Routes>
 			<Footer />

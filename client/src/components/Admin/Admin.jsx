@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import axiosInstance from '../../axiosInstance';
 import styles from './Admin.module.css';
 
-function Admin() {
+function Admin({ updateCartItemCount }) {
 	const [users, setUsers] = useState([]);
 	const [error, setError] = useState(null);
 
@@ -20,7 +20,7 @@ function Admin() {
 		};
 
 		fetchUsers();
-	}, []);
+	}, [updateCartItemCount()]);
 
 	const handleDelete = async id => {
 		try {
